@@ -29,7 +29,9 @@
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm fixed-top">
     <div class="container">
-        <a class="navbar-brand" href="#">FinBrain</a>
+        <a class="navbar-brand" href="#">
+            <img src="" alt="" style="height:32px;vertical-align:middle;margin-right:8px;"> FinBrain
+        </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -44,11 +46,11 @@
     </div>
 </nav>
 
-<section class="hero pt-5 mt-5">
+<section class="hero pt-5 mt-5" style="background: #0033a0; color: #fff;">
     <div class="container text-center">
-        <h1 class="hero-title mb-3">Simule seu futuro financeiro com inteligência artificial</h1>
-        <p class="hero-sub mb-4">Tome decisões mais inteligentes sobre seus investimentos com a ajuda da IA. Visualize cenários, compare estratégias e planeje sua liberdade financeira.</p>
-        <a href="#simuladores" class="btn btn-primary btn-lg px-4 shadow">Começar agora</a>
+        <h1 class="hero-title mb-3" style="color:#fff;">Simule seu futuro financeiro com inteligência artificial</h1>
+        <p class="hero-sub mb-4" style="color:#cce0ff;">Tome decisões mais inteligentes sobre seus investimentos com a ajuda da IA. Visualize cenários, compare estratégias e planeje sua liberdade financeira.</p>
+        <a href="#simuladores" class="btn btn-warning btn-lg px-4 shadow">Começar agora</a>
     </div>
 </section>
 
@@ -86,88 +88,39 @@
         </div>
         <!-- Novo Card Diagnóstico Seguro de Vida -->
         <div class="col-md-3">
-            <div class="card sim-card h-100 text-center p-4">
-                <div class="sim-icon sim-seguro mb-3"><i class="bi bi-shield-check"></i></div>
+            <div class="card sim-card h-100 text-center p-4" style="background: #0033a0; color: #fff; border: 2px solid #1976d2;">
+                <div class="sim-icon sim-seguro mb-3" style="background: #1976d2;"><i class="bi bi-shield-check"></i></div>
                 <h5 class="fw-bold mb-2">Diagnóstico de Seguro de Vida <span class="badge bg-warning text-dark">AI</span></h5>
-                <p class="text-muted">Descubra em segundos se você e sua família estão protegidos na medida certa.</p>
-                <button class="btn btn-warning text-white" data-bs-toggle="modal" data-bs-target="#modalSeguroVida">Diagnosticar agora</button>
+                <p class="text-light">Descubra em segundos se você e sua família estão protegidos na medida certa.</p>
+                <a href="/diagnostico-seguro-vida" class="btn btn-warning text-white fw-bold">Diagnosticar agora</a>
+            </div>
+        </div>
+        <!-- Card Viver de Renda com IA -->
+        <div class="col-md-3">
+            <div class="card sim-card h-100 text-center p-4" style="background: #0a2540; color: #fff; border: 2px solid #43a047;">
+                <div class="sim-icon sim-renda mb-3" style="background: #43a047;"><i class="bi bi-graph-up-arrow"></i></div>
+                <h5 class="fw-bold mb-2">Viver de Renda <span class="badge bg-info text-dark">AI</span></h5>
+                <p class="text-light">Simule como conquistar renda passiva vitalícia com inteligência artificial.</p>
+                <a href="/viver-de-renda-ia" class="btn btn-info text-white fw-bold">Simular agora</a>
             </div>
         </div>
     </div>
 </section>
 
-<!-- Modal Diagnóstico Seguro de Vida -->
-<div class="modal fade" id="modalSeguroVida" tabindex="-1" aria-labelledby="modalSeguroVidaLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="modalSeguroVidaLabel">Diagnóstico de Seguro de Vida com IA</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <form id="formSeguroVida">
-          <div class="mb-3">
-            <label for="idade" class="form-label">Sua idade</label>
-            <input type="number" class="form-control" id="idade" name="idade" min="18" max="80" required>
-          </div>
-          <div class="mb-3">
-            <label for="dependentes" class="form-label">Quantos dependentes?</label>
-            <input type="number" class="form-control" id="dependentes" name="dependentes" min="0" max="10" required>
-          </div>
-          <div class="mb-3">
-            <label for="renda" class="form-label">Renda mensal (R$)</label>
-            <input type="number" class="form-control" id="renda" name="renda" min="500" step="100" required>
-          </div>
-          <div class="mb-3">
-            <label for="profissao" class="form-label">Profissão</label>
-            <input type="text" class="form-control" id="profissao" name="profissao" required>
-          </div>
-          <button type="submit" class="btn btn-warning w-100">Analisar com IA</button>
-        </form>
-        <div id="resultadoSeguroVida" class="mt-4 d-none">
-          <div class="alert alert-success">
-            <h6 class="mb-2">Diagnóstico IA:</h6>
-            <div id="textoResultado"></div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
 <footer class="footer py-4 mt-5">
-    <div class="container text-center">
-        <div class="row">
-            <div class="col-md-12">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-6 text-center text-md-start mb-2 mb-md-0">
                 &copy; {{ date('Y') }} FinBrain. Todos os direitos reservados.
+            </div>
+            <div class="col-md-6 text-center text-md-end">
+                <span class="me-2">Powered by</span>
+                <img src=" alt=" style="height:28px;vertical-align:middle;">
             </div>
         </div>
     </div>
 </footer>
 <!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-<script>
-// Diagnóstico simulado de seguro de vida
-const form = document.getElementById('formSeguroVida');
-const resultado = document.getElementById('resultadoSeguroVida');
-const textoResultado = document.getElementById('textoResultado');
-if(form) {
-  form.addEventListener('submit', function(e) {
-    e.preventDefault();
-    const idade = +form.idade.value;
-    const dependentes = +form.dependentes.value;
-    const renda = +form.renda.value;
-    const profissao = form.profissao.value;
-    // Lógica simulada de IA
-    let valorSeguro = renda * 36 + dependentes * 20000;
-    if(idade > 50) valorSeguro *= 0.8;
-    let texto = `Com base nos dados fornecidos, recomendamos um seguro de vida de <b>R$ ${valorSeguro.toLocaleString('pt-BR')}</b> para garantir a segurança financeira da sua família.`;
-    if(dependentes === 0) texto += '<br><span class="text-warning">Você não informou dependentes. Considere se há pessoas que dependem de você financeiramente.</span>';
-    texto += `<br><small class='text-muted'>* Diagnóstico gerado por IA. Consulte um especialista para análise personalizada.</small>`;
-    textoResultado.innerHTML = texto;
-    resultado.classList.remove('d-none');
-  });
-}
-</script>
 </body>
 </html> 

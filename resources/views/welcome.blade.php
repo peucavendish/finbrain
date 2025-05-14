@@ -1,269 +1,375 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="pt-BR">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-
-    <title>{{ config('app.name', 'FinBrain') }}</title>
-
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FinBrain - Inteligência Financeira</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #0033a0;
+            --secondary-color: #00a3e0;
+            --dark-blue: #001f60;
+            --light-blue: #cce0ff;
+            --success-color: #43a047;
+        }
 
-    <!-- Scripts -->
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+        body {
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+        }
+
+        .navbar {
+            background: white;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 1rem 0;
+        }
+
+        .navbar-brand {
+            font-weight: 700;
+            color: var(--primary-color) !important;
+            font-size: 1.5rem;
+        }
+
+        .nav-link {
+            color: #333;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            transition: color 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: var(--primary-color);
+        }
+
+        .btn-primary {
+            background: var(--primary-color);
+            border: none;
+            padding: 0.75rem 1.5rem;
+            font-weight: 600;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background: var(--dark-blue);
+            transform: translateY(-2px);
+        }
+
+        .btn-outline-primary {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+            padding: 0.75rem 1.5rem;
+            font-weight: 600;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-outline-primary:hover {
+            background: var(--primary-color);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .hero-section {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--dark-blue) 100%);
+            min-height: 80vh;
+            position: relative;
+            overflow: hidden;
+            padding: 6rem 0;
+            color: white;
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('/images/pattern.png') repeat;
+            opacity: 0.05;
+            z-index: 0;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            color: var(--light-blue);
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        .feature-card {
+            background: white;
+            border-radius: 1rem;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 8px 32px rgba(0, 51, 160, 0.1);
+            transition: all 0.3s ease;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 48px rgba(0, 51, 160, 0.15);
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            width: 64px;
+            height: 64px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: var(--light-blue);
+        }
+
+        .feature-icon i {
+            font-size: 1.75rem;
+        }
+
+        .feature-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+        }
+
+        .feature-description {
+            color: #666;
+            line-height: 1.6;
+            flex-grow: 1;
+            margin-bottom: 1.5rem;
+        }
+
+        .feature-link {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+
+        .feature-link:hover {
+            color: var(--dark-blue);
+            transform: translateX(5px);
+        }
+
+        .feature-link i {
+            margin-left: 0.5rem;
+            font-size: 1.1em;
+        }
+
+        .curved-section-bottom {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            overflow: hidden;
+            line-height: 0;
+            transform: rotate(180deg);
+        }
+
+        .curved-section-bottom svg {
+            position: relative;
+            display: block;
+            width: calc(100% + 1.3px);
+            height: 69px;
+        }
+
+        .curved-section-bottom .shape-fill {
+            fill: #FFFFFF;
+        }
+
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            .hero-subtitle {
+                font-size: 1.1rem;
+            }
+        }
+    </style>
 </head>
-<body class="font-sans antialiased">
-    <div class="min-h-screen bg-gray-50">
-        <!-- Navigation -->
-        <nav class="bg-white border-b border-gray-100 fixed w-full top-0 z-50">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="flex justify-between h-16">
-                    <div class="flex">
-                        <!-- Logo -->
-                        <div class="shrink-0 flex items-center">
-                            <a href="/" class="text-2xl font-bold text-indigo-600">
-                                FinBrain
-                            </a>
-                        </div>
-
-                        <!-- Navigation Links -->
-                        <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                            <a href="#simuladores" class="inline-flex items-center px-1 pt-1 text-sm font-medium text-gray-900 hover:text-indigo-600">
-                                Simuladores
-                            </a>
-                            <a href="#planning" class="inline-flex items-center px-1 pt-1 text-sm font-medium text-gray-900 hover:text-indigo-600">
-                                Planejamento
-                            </a>
-                            <a href="#ferramentas" class="inline-flex items-center px-1 pt-1 text-sm font-medium text-gray-900 hover:text-indigo-600">
-                                Ferramentas
-                            </a>
-                            <a href="#blog" class="inline-flex items-center px-1 pt-1 text-sm font-medium text-gray-900 hover:text-indigo-600">
-                                Blog
-                            </a>
-                        </div>
-                    </div>
-
-                    <!-- Auth Links -->
-                    <div class="hidden sm:flex sm:items-center sm:ml-6">
-                        <a href="{{ route('login') }}" class="text-sm text-gray-700 hover:text-indigo-600">Entrar</a>
-                        <a href="{{ route('register') }}" class="ml-4 text-sm text-white bg-indigo-600 hover:bg-indigo-700 px-4 py-2 rounded-md">Cadastrar</a>
-                    </div>
-                </div>
-            </div>
-        </nav>
-
-        <!-- Hero Section -->
-        <div class="relative bg-indigo-600 overflow-hidden">
-            <div class="max-w-7xl mx-auto">
-                <div class="relative z-10 pb-8 bg-indigo-600 sm:pb-16 md:pb-20 lg:max-w-2xl lg:w-full lg:pb-28 xl:pb-32">
-                    <main class="mt-10 mx-auto max-w-7xl px-4 sm:mt-12 sm:px-6 md:mt-16 lg:mt-20 lg:px-8 xl:mt-28">
-                        <div class="sm:text-center lg:text-left">
-                            <h1 class="text-4xl tracking-tight font-extrabold text-white sm:text-5xl md:text-6xl">
-                                <span class="block">Simule seu futuro</span>
-                                <span class="block text-indigo-200">financeiro com IA</span>
-                            </h1>
-                            <p class="mt-3 text-base text-indigo-100 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-0">
-                                Tome decisões mais inteligentes sobre seus investimentos com a ajuda da inteligência artificial. Simule diferentes cenários e planeje seu futuro financeiro.
-                            </p>
-                            <div class="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start">
-                                <div class="rounded-md shadow">
-                                    <a href="{{ route('register') }}" class="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-700 hover:bg-indigo-800 md:py-4 md:text-lg md:px-10">
-                                        Começar agora
-                                    </a>
-                                </div>
-                                <div class="mt-3 sm:mt-0 sm:ml-3">
-                                    <a href="#simuladores" class="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-indigo-700 bg-white hover:bg-gray-50 md:py-4 md:text-lg md:px-10">
-                                        Ver simuladores
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </main>
-                </div>
-            </div>
-            <div class="lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2">
-                <img class="h-56 w-full object-cover sm:h-72 md:h-96 lg:w-full lg:h-full" src="https://images.unsplash.com/photo-1551434678-e076c223a692?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2850&q=80" alt="Financial planning">
+<body>
+    <nav class="navbar navbar-expand-lg">
+        <div class="container">
+            <a class="navbar-brand" href="/">FinBrain</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#features">Recursos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/login">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="btn btn-primary ms-2" href="/register">Cadastre-se</a>
+                    </li>
+                </ul>
             </div>
         </div>
+    </nav>
 
-        <!-- Features Section -->
-        <div id="simuladores" class="py-12 bg-white">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="lg:text-center">
-                    <h2 class="text-base text-indigo-600 font-semibold tracking-wide uppercase">Simuladores</h2>
-                    <p class="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">
-                        Ferramentas inteligentes para seu futuro
+    <section class="hero-section">
+        <div class="container hero-content">
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <h1 class="hero-title">
+                        Inteligência artificial a favor do seu 
+                        <span class="highlight-text">patrimônio</span>
+                    </h1>
+                    <p class="hero-subtitle">
+                        Transformamos incertezas em oportunidades com análises personalizadas 
+                        e recomendações inteligentes para suas decisões financeiras.
                     </p>
-                    <p class="mt-4 max-w-2xl text-xl text-gray-500 lg:mx-auto">
-                        Nossos simuladores utilizam inteligência artificial para criar projeções precisas e personalizadas.
-                    </p>
-                </div>
-
-                <div class="mt-10">
-                    <div class="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-3">
-                        <!-- Retirement Simulator -->
-                        <div class="bg-white overflow-hidden shadow rounded-lg">
-                            <div class="p-6">
-                                <div class="flex items-center">
-                                    <div class="flex-shrink-0 bg-indigo-500 rounded-md p-3">
-                                        <svg class="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                        </svg>
-                                    </div>
-                                    <div class="ml-5 w-0 flex-1">
-                                        <h3 class="text-lg font-medium text-gray-900">Simulador de Aposentadoria</h3>
-                                        <p class="mt-1 text-sm text-gray-500">Calcule quanto você precisa para se aposentar com conforto</p>
-                                    </div>
-                                </div>
-                                <div class="mt-6">
-                                    <a href="{{ route('register') }}" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                                        Começar simulação
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Passive Income Simulator -->
-                        <div class="bg-white overflow-hidden shadow rounded-lg">
-                            <div class="p-6">
-                                <div class="flex items-center">
-                                    <div class="flex-shrink-0 bg-green-500 rounded-md p-3">
-                                        <svg class="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
-                                        </svg>
-                                    </div>
-                                    <div class="ml-5 w-0 flex-1">
-                                        <h3 class="text-lg font-medium text-gray-900">Simulador de Renda Passiva</h3>
-                                        <p class="mt-1 text-sm text-gray-500">Descubra quanto precisa investir para viver de renda</p>
-                                    </div>
-                                </div>
-                                <div class="mt-6">
-                                    <a href="{{ route('register') }}" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
-                                        Começar simulação
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Investment Comparator -->
-                        <div class="bg-white overflow-hidden shadow rounded-lg">
-                            <div class="p-6">
-                                <div class="flex items-center">
-                                    <div class="flex-shrink-0 bg-purple-500 rounded-md p-3">
-                                        <svg class="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-                                        </svg>
-                                    </div>
-                                    <div class="ml-5 w-0 flex-1">
-                                        <h3 class="text-lg font-medium text-gray-900">Comparador de Investimentos</h3>
-                                        <p class="mt-1 text-sm text-gray-500">Compare diferentes tipos de investimentos e suas rentabilidades</p>
-                                    </div>
-                                </div>
-                                <div class="mt-6">
-                                    <a href="{{ route('register') }}" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500">
-                                        Começar simulação
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
+                    <div class="d-flex gap-3">
+                        <a href="/register" class="btn btn-light btn-lg">Comece Agora</a>
+                        <a href="#saiba-mais" class="btn btn-outline-light btn-lg">Saiba Mais</a>
                     </div>
+                </div>
+                <div class="col-lg-6 d-none d-lg-block">
+                    <img src="/images/hero-image.svg" alt="FinBrain Analytics" class="img-fluid" style="max-width: 100%; height: auto;">
                 </div>
             </div>
         </div>
+        <div class="curved-section-bottom">
+            <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+                <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" class="shape-fill"></path>
+            </svg>
+        </div>
+    </section>
 
-        <!-- CTA Section -->
-        <div class="bg-indigo-700">
-            <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:py-16 lg:px-8 lg:flex lg:items-center lg:justify-between">
-                <h2 class="text-3xl font-extrabold tracking-tight text-white sm:text-4xl">
-                    <span class="block">Pronto para começar?</span>
-                    <span class="block text-indigo-200">Crie sua conta gratuita agora.</span>
-                </h2>
-                <div class="mt-8 flex lg:mt-0 lg:flex-shrink-0">
-                    <div class="inline-flex rounded-md shadow">
-                        <a href="{{ route('register') }}" class="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-indigo-600 bg-white hover:bg-indigo-50">
-                            Criar conta
+    <section class="features py-5" id="saiba-mais">
+        <div class="container">
+            <div class="row g-4">
+                <!-- Análise de Carteira -->
+                <div class="col-md-6 col-lg-3">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-chart-line text-primary"></i>
+                        </div>
+                        <h3 class="feature-title">Análise de Carteira</h3>
+                        <p class="feature-description">
+                            Análise inteligente da sua carteira de investimentos com recomendações 
+                            personalizadas baseadas no cenário atual do mercado brasileiro.
+                        </p>
+                        <a href="{{ route('diagnostico-carteira') }}" class="feature-link">
+                            Fazer Diagnóstico <i class="fas fa-arrow-right"></i>
                         </a>
                     </div>
-                    <div class="ml-3 inline-flex rounded-md shadow">
-                        <a href="#simuladores" class="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700">
-                            Ver simuladores
+                </div>
+
+                <!-- Viver de Renda -->
+                <div class="col-md-6 col-lg-3">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-bullseye text-success"></i>
+                        </div>
+                        <h3 class="feature-title">Viver de Renda</h3>
+                        <p class="feature-description">
+                            Planejamento personalizado para alcançar a independência financeira 
+                            e viver de renda passiva.
+                        </p>
+                        <a href="{{ route('viver-de-renda-ia') }}" class="feature-link">
+                            Fazer Simulação <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Proteção Patrimonial -->
+                <div class="col-md-6 col-lg-3">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-shield-alt text-danger"></i>
+                        </div>
+                        <h3 class="feature-title">Proteção Patrimonial</h3>
+                        <p class="feature-description">
+                            Análise inteligente de seguros de vida para proteger seu patrimônio 
+                            e garantir o futuro da sua família.
+                        </p>
+                        <a href="{{ route('diagnostico-seguro-vida') }}" class="feature-link">
+                            Fazer Diagnóstico <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Diagnóstico Sucessório -->
+                <div class="col-md-6 col-lg-3">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-balance-scale text-success"></i>
+                        </div>
+                        <h3 class="feature-title">Diagnóstico Sucessório</h3>
+                        <p class="feature-description">
+                            Análise inteligente do seu planejamento sucessório com recomendações 
+                            personalizadas baseadas na legislação brasileira.
+                        </p>
+                        <a href="{{ route('diagnostico-sucessorio') }}" class="feature-link">
+                            Fazer Diagnóstico <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Diagnóstico Tributário -->
+                <div class="col-md-6 col-lg-3">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-calculator text-primary"></i>
+                        </div>
+                        <h3 class="feature-title">Diagnóstico Tributário</h3>
+                        <p class="feature-description">
+                            Análise completa da sua situação fiscal, identificando oportunidades 
+                            de otimização tributária e recomendações personalizadas.
+                        </p>
+                        <a href="{{ route('diagnostico-tributario') }}" class="feature-link">
+                            Fazer Diagnóstico <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Diagnóstico Holding -->
+                <div class="col-md-6 col-lg-3">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-building text-success"></i>
+                        </div>
+                        <h3 class="feature-title">Diagnóstico Holding</h3>
+                        <p class="feature-description">
+                            Análise personalizada da necessidade de estruturação patrimonial via holding, 
+                            considerando aspectos fiscais, sucessórios e de proteção patrimonial.
+                        </p>
+                        <a href="{{ route('diagnostico-holding') }}" class="feature-link">
+                            Fazer Diagnóstico <i class="fas fa-arrow-right"></i>
                         </a>
                     </div>
                 </div>
             </div>
         </div>
+    </section>
 
-        <!-- Footer -->
-        <footer class="bg-white">
-            <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
-                <div class="grid grid-cols-2 gap-8 md:grid-cols-4">
-                    <div>
-                        <h3 class="text-sm font-semibold text-gray-400 tracking-wider uppercase">Simuladores</h3>
-                        <ul class="mt-4 space-y-4">
-                            <li>
-                                <a href="#" class="text-base text-gray-500 hover:text-gray-900">Aposentadoria</a>
-                            </li>
-                            <li>
-                                <a href="#" class="text-base text-gray-500 hover:text-gray-900">Renda Passiva</a>
-                            </li>
-                            <li>
-                                <a href="#" class="text-base text-gray-500 hover:text-gray-900">Comparador</a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div>
-                        <h3 class="text-sm font-semibold text-gray-400 tracking-wider uppercase">Recursos</h3>
-                        <ul class="mt-4 space-y-4">
-                            <li>
-                                <a href="#" class="text-base text-gray-500 hover:text-gray-900">Blog</a>
-                            </li>
-                            <li>
-                                <a href="#" class="text-base text-gray-500 hover:text-gray-900">Ferramentas</a>
-                            </li>
-                            <li>
-                                <a href="#" class="text-base text-gray-500 hover:text-gray-900">Planejamento</a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div>
-                        <h3 class="text-sm font-semibold text-gray-400 tracking-wider uppercase">Empresa</h3>
-                        <ul class="mt-4 space-y-4">
-                            <li>
-                                <a href="#" class="text-base text-gray-500 hover:text-gray-900">Sobre</a>
-                            </li>
-                            <li>
-                                <a href="#" class="text-base text-gray-500 hover:text-gray-900">Contato</a>
-                            </li>
-                            <li>
-                                <a href="#" class="text-base text-gray-500 hover:text-gray-900">Termos</a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div>
-                        <h3 class="text-sm font-semibold text-gray-400 tracking-wider uppercase">Legal</h3>
-                        <ul class="mt-4 space-y-4">
-                            <li>
-                                <a href="#" class="text-base text-gray-500 hover:text-gray-900">Privacidade</a>
-                            </li>
-                            <li>
-                                <a href="#" class="text-base text-gray-500 hover:text-gray-900">Termos de Uso</a>
-                            </li>
-                            <li>
-                                <a href="#" class="text-base text-gray-500 hover:text-gray-900">Cookies</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="mt-8 border-t border-gray-200 pt-8">
-                    <p class="text-base text-gray-400 xl:text-center">
-                        &copy; {{ date('Y') }} FinBrain. Todos os direitos reservados.
-                    </p>
-                </div>
-            </div>
-        </footer>
-    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html> 

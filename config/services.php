@@ -14,6 +14,13 @@ return [
     |
     */
 
+    'mailgun' => [
+        'domain' => env('MAILGUN_DOMAIN'),
+        'secret' => env('MAILGUN_SECRET'),
+        'endpoint' => env('MAILGUN_ENDPOINT', 'api.mailgun.net'),
+        'scheme' => 'https',
+    ],
+
     'postmark' => [
         'token' => env('POSTMARK_TOKEN'),
     ],
@@ -37,9 +44,9 @@ return [
 
     'openai' => [
         'api_key' => env('OPENAI_API_KEY'),
-        'organization' => env('OPENAI_ORGANIZATION', null),
-        'model' => env('OPENAI_MODEL', 'gpt-4-turbo-preview'),
-        'max_tokens' => (int) env('OPENAI_MAX_TOKENS', 2000),
+        'organization' => env('OPENAI_ORGANIZATION'),
+        'model' => env('OPENAI_MODEL', 'gpt-3.5-turbo'),
+        'max_tokens' => (int) env('OPENAI_MAX_TOKENS', 1000),
         'temperature' => (float) env('OPENAI_TEMPERATURE', 0.7),
     ],
 

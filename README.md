@@ -1,61 +1,158 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# FinBrain - Planejador de Independência Financeira
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Sistema de análise financeira com IA para planejamento de independência financeira.
 
-## About Laravel
+## Funcionalidades
+- Interface web para preenchimento de dados pessoais, saúde, estilo de vida e histórico familiar
+- Integração com OpenAI para análise e recomendação
+- Não armazena dados do usuário no banco (apenas processamento em memória)
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Deploy na AWS
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+### 1. Criar uma instância EC2
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+1. Acesse o [Console AWS](https://aws.amazon.com/console/)
+2. Vá para EC2 > Launch Instance
+3. Selecione Ubuntu Server 22.04 LTS
+4. Escolha t2.micro (ou maior se necessário)
+5. Configure o Security Group:
+   - HTTP (80): 0.0.0.0/0
+   - HTTPS (443): 0.0.0.0/0
+   - SSH (22): Seu IP
+6. Crie ou selecione uma key pair para SSH
+7. Lance a instância
 
-## Learning Laravel
+### 2. Configurar DNS (opcional)
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+1. Registre um domínio (Route 53 ou outro registrador)
+2. Crie um registro A apontando para o IP da sua instância
+3. Aguarde a propagação do DNS
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+### 3. Conectar via SSH
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+```bash
+chmod 400 sua-key.pem
+ssh -i sua-key.pem ubuntu@seu-ip-ou-dominio
+```
 
-## Laravel Sponsors
+### 4. Preparar o servidor
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+1. Clone o repositório:
+```bash
+git clone seu-repositorio finbrain
+cd finbrain
+```
 
-### Premium Partners
+2. Configure as variáveis de ambiente:
+```bash
+# Edite .env.production com suas configurações
+nano .env.production
+```
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development/)**
-- **[Active Logic](https://activelogic.com)**
+3. Configure o script de deploy:
+```bash
+# Edite o script com suas configurações
+nano deploy.sh
+chmod +x deploy.sh
+```
 
-## Contributing
+4. Execute o deploy:
+```bash
+./deploy.sh
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### 5. Configurações pós-deploy
 
-## Code of Conduct
+1. Configure SSL com Certbot:
+```bash
+sudo snap install --classic certbot
+sudo ln -s /snap/bin/certbot /usr/bin/certbot
+sudo certbot --nginx
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+2. Configure o backup do banco de dados:
+```bash
+# Instale o AWS CLI
+sudo apt install awscli
 
-## Security Vulnerabilities
+# Configure suas credenciais
+aws configure
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+# Crie um script de backup
+sudo nano /etc/cron.daily/backup-mysql
+```
 
-## License
+3. Monitore os logs:
+```bash
+tail -f /var/log/nginx/error.log
+tail -f storage/logs/laravel.log
+```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## Manutenção
+
+### Atualizar a aplicação
+
+```bash
+cd /var/www/finbrain
+git pull
+composer install --no-dev --optimize-autoloader
+php artisan config:cache
+php artisan route:cache
+php artisan view:cache
+sudo chown -R www-data:www-data .
+```
+
+### Backup do banco de dados
+
+```bash
+# Backup manual
+mysqldump -u finbrain_user -p finbrain > backup.sql
+
+# Restaurar backup
+mysql -u finbrain_user -p finbrain < backup.sql
+```
+
+### Monitoramento
+
+1. Configure o CloudWatch para monitorar:
+   - Uso de CPU
+   - Uso de memória
+   - Espaço em disco
+   - Logs do sistema
+
+2. Configure alertas para:
+   - Alto uso de recursos
+   - Erros nos logs
+   - Falhas de backup
+
+## Segurança
+
+1. Mantenha o sistema atualizado:
+```bash
+sudo apt update
+sudo apt upgrade
+```
+
+2. Configure o firewall:
+```bash
+sudo ufw allow 80/tcp
+sudo ufw allow 443/tcp
+sudo ufw allow 22/tcp
+sudo ufw enable
+```
+
+3. Boas práticas:
+   - Use senhas fortes
+   - Mantenha as chaves API seguras
+   - Faça backup regularmente
+   - Monitore os logs
+   - Mantenha o PHP e dependências atualizados
+
+## Suporte
+
+Para suporte, entre em contato com a equipe de desenvolvimento.
+
+---
+
+## Licença
+MIT
